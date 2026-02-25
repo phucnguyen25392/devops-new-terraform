@@ -41,7 +41,7 @@ jobs:
         run: |
           echo "## Detect Changes Summary" >> $GITHUB_STEP_SUMMARY
           echo "Changed stacks: $CHANGED_STACKS" >> $GITHUB_STEP_SUMMARY
-  terrform-plan:
+  terraform-plan:
     needs: detect-changes
     runs-on: ubuntu-latest
     container:
