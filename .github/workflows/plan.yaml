@@ -45,7 +45,7 @@ jobs:
     needs: detect-changes
     runs-on: ubuntu-latest
     container:
-      image: pulumi/pulumi-python:3.186.0
+      image: hashicorp/terraform:1.7
     # Only run if there are changed stacks
     if: ${{ needs.detect-changes.outputs.changed_stacks != '[]' }}
     strategy:
