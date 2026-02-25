@@ -1,0 +1,10 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# pipenv / poetry
+Pipfile.lock
+poetry.lock
+.coverage
+
+terraform.tfstate
