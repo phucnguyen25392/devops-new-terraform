@@ -66,17 +66,6 @@ jobs:
         with:
           service_account: ${{ vars.SERVICE_ACCOUNT_NAME }}@${{ vars.PROJECT_ID }}.iam.gserviceaccount.com
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
-      - name: Install dependencies
-        run: |
-          apt-get install -y jq
-          echo $PWD
-          git config --global --add safe.directory $PWD
-      - name: Get Current Job Log URL
-        uses: Tiryoh/gha-jobid-action@v1
-        id: jobs
-        with:
-          job_name: "terraform-plan (${{ matrix.stack }})"
-          per_page: 50
       - name: Terraform Plan
         run: |
           export PYTHONPATH=$PWD
