@@ -40,6 +40,10 @@ def terraform_operation(workdir: str, operation: str) -> None:
     if operation == "plan":
         try:
             _run_cmd(
+                ["terraform", "init"],
+                workdir
+            )
+            _run_cmd(
                 ["terraform", "plan", "-input=false", "-out=tfplan"],
                 workdir
             )
