@@ -70,7 +70,7 @@ jobs:
         uses: Tiryoh/gha-jobid-action@v1
         id: jobs
         with:
-          job_name: "terrform-plan (${{ matrix.stack }})"
+          job_name: "terraform-plan (${{ matrix.stack }})"
           per_page: 50
       - name: Terraform Plan
         run: |
