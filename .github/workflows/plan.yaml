@@ -1,0 +1,81 @@
+name: Pulumi - Plan
+on:
+  pull_request:
+    branches:
+      - main
+env:
+  FORCE_COLOR: "1"
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      actions: "read"
+      id-token: "write"
+    outputs:
+      changed_stacks: ${{ steps.set-output.outputs.changed_stacks }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          echo $PWD
+          git config --global --add safe.directory $PWD
+      - name: Pulumi get changed stacks
+        run: |
+          export PYTHONPATH=$PWD
+          python ci/detect_changed_stacks.py
+          echo "Changed stacks from script: $CHANGED_STACKS"
+        env:
+          TERM: xterm-256color
+          PYTHONUNBUFFERED: 1
+      - name: Set output
+        id: set-output
+        run: |
+          echo "changed_stacks=$CHANGED_STACKS" >> $GITHUB_OUTPUT
+      - name: Write summary
+        run: |
+          echo "## Detect Changes Summary" >> $GITHUB_STEP_SUMMARY
+          echo "Changed stacks: $CHANGED_STACKS" >> $GITHUB_STEP_SUMMARY
+  pulumi-plan:
+    needs: detect-changes
+    runs-on: ubuntu-latest
+    container:
+      image: pulumi/pulumi-python:3.186.0
+    # Only run if there are changed stacks
+    if: ${{ needs.detect-changes.outputs.changed_stacks != '[]' }}
+    strategy:
+      matrix:
+        stack: ${{ fromJson(needs.detect-changes.outputs.changed_stacks) }}
+    permissions:
+      contents: "read"
+      actions: "read"
+      id-token: "write"
+    continue-on-error: true
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v3
+        with:
+          service_account: ${{ vars.SERVICE_ACCOUNT_NAME }}@${{ vars.PROJECT_ID }}.iam.gserviceaccount.com
+          workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
+      - name: Get Current Job Log URL
+        uses: Tiryoh/gha-jobid-action@v1
+        id: jobs
+        with:
+          job_name: "pulumi-plan (${{ matrix.stack }})"
+          per_page: 50
+      - name: Terraform Plan
+        run: |
+          export PYTHONPATH=$PWD
+          python ci/terraform_operation.py ${{ matrix.stack }} plan
+        env:
+          TERM: xterm-256color
+          PYTHONUNBUFFERED: 1
