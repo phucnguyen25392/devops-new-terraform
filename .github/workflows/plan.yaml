@@ -45,7 +45,7 @@ jobs:
     needs: detect-changes
     runs-on: ubuntu-latest
     container:
-      image: pulumi/pulumi-python:3.186.0
+      image: hashicorp/terraform:1.7.5
     # Only run if there are changed stacks
     if: ${{ needs.detect-changes.outputs.changed_stacks != '[]' }}
     strategy:
@@ -68,9 +68,7 @@ jobs:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
       - name: Install dependencies
         run: |
-          wget -O - https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
-          apt update && apt install terraform
+          apk add --no-cache python3 py3-pip
       - name: Terraform Plan
         run: |
           export PYTHONPATH=$PWD
