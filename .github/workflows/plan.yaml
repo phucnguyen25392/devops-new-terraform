@@ -1,4 +1,4 @@
-name: Pulumi - Plan
+name: Terraform - Plan
 on:
   pull_request:
     branches:
@@ -25,7 +25,7 @@ jobs:
           python -m pip install --upgrade pip
           echo $PWD
           git config --global --add safe.directory $PWD
-      - name: Pulumi get changed stacks
+      - name: Terraform get changed stacks
         run: |
           export PYTHONPATH=$PWD
           python ci/detect_changed_stacks.py
@@ -41,7 +41,7 @@ jobs:
         run: |
           echo "## Detect Changes Summary" >> $GITHUB_STEP_SUMMARY
           echo "Changed stacks: $CHANGED_STACKS" >> $GITHUB_STEP_SUMMARY
-  pulumi-plan:
+  terrform-plan:
     needs: detect-changes
     runs-on: ubuntu-latest
     container:
@@ -70,7 +70,7 @@ jobs:
         uses: Tiryoh/gha-jobid-action@v1
         id: jobs
         with:
-          job_name: "pulumi-plan (${{ matrix.stack }})"
+          job_name: "terrform-plan (${{ matrix.stack }})"
           per_page: 50
       - name: Terraform Plan
         run: |
