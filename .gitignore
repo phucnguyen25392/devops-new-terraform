@@ -7,5 +7,7 @@ Pipfile.lock
 poetry.lock
 .coverage
 
+
 terraform.tfstate
+.terraform
 .terraform.lock.hcl

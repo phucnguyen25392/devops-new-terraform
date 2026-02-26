@@ -45,7 +45,7 @@ jobs:
     needs: detect-changes
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/terraform:1.7
+      image: hashicorp/terraform:1.7.5
     # Only run if there are changed stacks
     if: ${{ needs.detect-changes.outputs.changed_stacks != '[]' }}
     strategy:
@@ -66,6 +66,9 @@ jobs:
         with:
           service_account: ${{ vars.SERVICE_ACCOUNT_NAME }}@${{ vars.PROJECT_ID }}.iam.gserviceaccount.com
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
+      - name: Install dependencies
+        run: |
+          apk add --no-cache python3 py3-pip
       - name: Terraform Plan
         run: |
           export PYTHONPATH=$PWD

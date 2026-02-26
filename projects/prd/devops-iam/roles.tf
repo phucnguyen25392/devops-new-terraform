@@ -18,7 +18,7 @@ variable "roles" {
   }
 }
 module "role" {
-  source   = "../modules/gcp/iam/user-by-roles"
+  source   = "../../../modules/gcp/iam/user-by-roles"
   for_each = var.roles
 
   project   = "phuc-devops"
