@@ -11,8 +11,8 @@ OnOutput = Callable[[str], Any]
 
 def get_changed_files():
     changed_files = set()
-    source = "main"
-    dest = "origin/main"
+    source = "HEAD~1"
+    dest = "HEAD"
     if os.environ.get("GITHUB_EVENT_NAME") == "pull_request":
         source = "origin/" + os.environ["GITHUB_HEAD_REF"]
         dest = "origin/" + os.environ["GITHUB_BASE_REF"]
