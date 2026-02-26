@@ -5,7 +5,7 @@ provider "google" {
 variable "roles" {
   type = any
   default = {
-    "roles/iam.serviceAccountUser" = {
+    "roles/iam.serviceAccountAdmin" = {
       members = ["user:hellboy.1315@gmail.com"]
       condition = [
         {
