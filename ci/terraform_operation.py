@@ -20,14 +20,14 @@ def _run_cmd(cmd: list[str], cwd: str):
 def _process_output(workdir: str, output: str):
     try:
         result = subprocess.run(
-            ["terraform", "show", "-json", output],
+            ["terraform", "show", "--no-color", output],
             cwd=workdir,
             capture_output=True,
             text=True,
             check=True
         )
 
-        with open(f"{workdir}/{output}.json", "w") as f:
+        with open(f"{workdir}/{output}.txt", "w") as f:
             f.write(result.stdout)
 
         print(result.stdout)
