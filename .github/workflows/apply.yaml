@@ -69,7 +69,7 @@ jobs:
       - name: Terraform Apply
         run: |
           export PYTHONPATH=$PWD
-          python ci/terraform_operation.py ${{ matrix.stack }} up
+          python ci/terraform_operation.py ${{ matrix.stack }} apply
         env:
           PYTHONUNBUFFERED: 1
           TERM: xterm-256color
