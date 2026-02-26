@@ -54,7 +54,7 @@ def terraform_operation(workdir: str, operation: str) -> None:
             sys.exit(1)
     if operation == "apply":
         try:
-            return run_cmd(
+            return _run_cmd(
                 ["terraform", "apply", "-input=false", "-auto-approve"],
                 workdir
             )
