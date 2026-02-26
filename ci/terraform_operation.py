@@ -20,7 +20,7 @@ def _run_cmd(cmd: list[str], cwd: str):
 def _process_output(workdir: str, output: str):
     try:
         result = subprocess.run(
-            ["terraform", "show", "--no-color", output],
+            ["terraform", "show", "-no-color", output],
             cwd=workdir,
             capture_output=True,
             text=True,
