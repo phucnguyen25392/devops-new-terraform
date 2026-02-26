@@ -14,16 +14,6 @@ variable "roles" {
           expression  = "request.time < timestamp(\"2027-01-01T00:00:00Z\")"
         }
       ]
-    },
-    "roles/iam.serviceAccountAdmin" = {
-      members = ["user:hellboy.1315@gmail.com"]
-      condition = [
-        {
-          title       = "expires_after_2022_12_31"
-          description = "Expiring at midnight of 2022-12-31"
-          expression  = "request.time < timestamp(\"2027-01-01T00:00:00Z\")"
-        }
-      ]
     }
   }
 }
