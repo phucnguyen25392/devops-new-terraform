@@ -47,13 +47,16 @@ def terraform_operation(workdir: str, operation: str) -> None:
                 ["terraform", "plan", "-input=false", "-out=tfplan"],
                 workdir
             )
-            _process_output(workdir, "tfplan")
-            return
+            return _process_output(workdir, "tfplan")
         except Exception as e:
             logging.error(f"Error: {e}")
             sys.exit(1)
     if operation == "apply":
         try:
+            _run_cmd(
+                ["terraform", "init"],
+                workdir
+            )
             return _run_cmd(
                 ["terraform", "apply", "-input=false", "-auto-approve"],
                 workdir
