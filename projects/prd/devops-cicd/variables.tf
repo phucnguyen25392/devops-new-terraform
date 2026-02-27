@@ -18,7 +18,7 @@ variable "common_tags" {
     "brand"      = "white-label"
     "department" = "devops"
     "team"       = "devops"
-    "handler"    = "devops"
+    "handler"    = "devopsgmail"
     "managed-by" = "terraform"
   }
 }
