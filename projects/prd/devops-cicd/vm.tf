@@ -4,17 +4,17 @@ provider "google" {
 
 locals {
   virtual_machines = {
-    "vms" = {
-      name            = "vm-cicd"
-      zone            = var.zone
-      machine_type    = "n1-standard-1"
-      tags            = var.tags
-      boot_disk_image = "debian-cloud/debian-11"
-      boot_disk_size  = 10
-      network         = data.terraform_remote_state.network.outputs.vpc_name
-      subnetwork      = data.terraform_remote_state.network.outputs.subnets["asia-southeast1/subnet-01"].name
-      labels          = var.common_tags
-    }
+    # "vms" = {
+    #   name            = "vm-cicd"
+    #   zone            = var.zone
+    #   machine_type    = "n1-standard-1"
+    #   tags            = var.tags
+    #   boot_disk_image = "debian-cloud/debian-11"
+    #   boot_disk_size  = 10
+    #   network         = data.terraform_remote_state.network.outputs.vpc_name
+    #   subnetwork      = data.terraform_remote_state.network.outputs.subnets["asia-southeast1/subnet-01"].name
+    #   labels          = var.common_tags
+    # }
   }
 }
 
