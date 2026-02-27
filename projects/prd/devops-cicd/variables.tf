@@ -14,11 +14,11 @@ variable "common_tags" {
   description = "Define common tags for this project"
   type        = map(string)
   default = {
-    "Center"     = "prd"
-    "Brand"      = "white-label"
-    "Department" = "devops"
-    "Team"       = "devops"
-    "Handler"    = "devops@gmail.com"
-    "Managed-by" = "Terraform"
+    "center"     = "prd"
+    "brand"      = "white-label"
+    "department" = "devops"
+    "team"       = "devops"
+    "handler"    = "devops@gmail.com"
+    "managed-by" = "Terraform"
   }
 }
