@@ -76,6 +76,20 @@ variable "labels" {
   description = "A map of key/value label pairs to assign to the instance."
   type        = map(string)
   default     = {}
+
+  validation {
+    condition     = length(var.labels) <= 10
+    error_message = "Maximum 10 labels allowed."
+  }
+
+  validation {
+    condition = alltrue([
+      for k, v in var.labels :
+      can(regex("^[a-z][a-z0-9_-]{0,62}$", k)) &&
+      can(regex("^[a-z0-9_-]{0,63}$", v))
+    ])
+    error_message = "Invalid GCP label format."
+  }
 }
 
 variable "metadata" {
